@@ -38,14 +38,14 @@ public class PersonControllerTest {
         repository.deleteAll();
     }
 
-    private Person createTestPerson(String login, String password) {
-        Person emp = Person.of(login, password);
+    private Person createTestPerson(int id, String login, String password) {
+        Person emp = Person.of(id, login, password);
         return repository.save(emp);
     }
 
     @Test
     public void whenCreatedThenStatus201() throws Exception {
-        Person person = Person.of("Login", "Password");
+        Person person = Person.of(1, "Login", "Password");
         mockMvc.perform(
                 post("/person/")
                         .content(objectMapper.writeValueAsString(person))
@@ -59,7 +59,7 @@ public class PersonControllerTest {
 
     @Test
     public void whenGetUserInfoByIdThenStatus200() throws Exception {
-        int id = createTestPerson("Login", "Password").getId();
+        int id = createTestPerson(1,"Login", "Password").getId();
         mockMvc.perform(
                 get("/person/{id}", id))
                 .andExpect(status().isOk())
@@ -77,8 +77,8 @@ public class PersonControllerTest {
 
     @Test
     public void whenUpdateUserThenStatus200() throws Exception {
-        int id = createTestPerson("Login", "Password").getId();
-        Person personTest = Person.of("Логин", "Пароль");
+        int id = createTestPerson(1,"Login", "Password").getId();
+        Person personTest = Person.of(1,"Логин", "Пароль");
         personTest.setId(id);
         mockMvc.perform(
                 put("/person/")
@@ -94,7 +94,7 @@ public class PersonControllerTest {
 
     @Test
     public void whenDeleteUserThenStatus200() throws Exception {
-        int id = createTestPerson("Login", "Password").getId();
+        int id = createTestPerson(1,"Login", "Password").getId();
         mockMvc.perform(
                 delete("/person/{id}", id))
                 .andExpect(status().isOk());
@@ -105,8 +105,8 @@ public class PersonControllerTest {
 
     @Test
     public void whenGetAllPersonsThenStatus200() throws Exception {
-        Person p1 = createTestPerson("login1", "password1");
-        Person p2 = createTestPerson("login2", "password2");
+        Person p1 = createTestPerson(1,"login1", "password1");
+        Person p2 = createTestPerson(2,"login2", "password2");
 
         mockMvc.perform(
                 get("/person/"))
