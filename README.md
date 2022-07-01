@@ -1,1 +1,1 @@
-# job4j_rest
+# rest
